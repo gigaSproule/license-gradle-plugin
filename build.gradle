@@ -1,31 +1,31 @@
 // First, apply the publishing plugin
 buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-      jcenter()
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+            jcenter()
+        }
     }
-  }
-  dependencies {
-    classpath "com.gradle.publish:plugin-publish-plugin:0.9.1"
-    classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:2.2.+'
-  }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.1"
+        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:2.2.+'
+    }
 }
 
 plugins {
-  id 'groovy'
-  id 'idea'
-  id 'pl.allegro.tech.build.axion-release' version '1.11.0'
-  id 'com.gradle.plugin-publish' version '0.14.0'
-  id 'java-gradle-plugin'
-  id 'ru.vyarus.animalsniffer' version '1.5.3'
+    id 'groovy'
+    id 'idea'
+    id 'pl.allegro.tech.build.axion-release' version '1.15.1'
+    id 'com.gradle.plugin-publish' version '1.1.0'
+    id 'java-gradle-plugin'
+    id 'ru.vyarus.animalsniffer' version '1.5.3'
 }
 
 apply plugin: 'com.github.hierynomus.license'
 
 defaultTasks 'build'
 
-group = 'com.hierynomus.gradle.plugins'
+group = 'com.benjaminsproule.gradle.plugins'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -51,7 +51,7 @@ scmVersion {
         versionSeparator = ''
     }
     hooks {
-        pre 'fileUpdate', [file: 'README.adoc', pattern: { v, c -> /:license_plugin_version .*/}, replacement: { v, c -> ":license_plugin_version: $v" }]
+        pre 'fileUpdate', [file: 'README.adoc', pattern: { v, c -> /:license_plugin_version .*/ }, replacement: { v, c -> ":license_plugin_version: $v" }]
         pre 'commit'
     }
 }
@@ -64,12 +64,12 @@ configurations.implementation.transitive = false
 sourceSets.create("integrationTest")
 
 dependencies {
-  signature 'org.codehaus.mojo.signature:java17:1.0@signature'
+    signature 'org.codehaus.mojo.signature:java17:1.0@signature'
 
     implementation "org.codehaus.plexus:plexus-utils:2.0.5"
     implementation "com.mycila.xmltool:xmltool:3.3"
     // Using implementation instead of groovy, so that it goes into the pom
-    implementation ('com.mycila:license-maven-plugin:3.0') {
+    implementation('com.mycila:license-maven-plugin:3.0') {
         exclude group: 'org.apache.maven', module: 'maven-plugin-api'
         exclude group: 'org.apache.maven', module: 'maven-project'
     }
@@ -133,13 +133,13 @@ license {
 }
 
 tasks.withType(Test).all { t ->
-  t.afterSuite { descriptor, result ->
-    def indicator = "\u001B[32m✓\u001b[0m"
-    if (result.failedTestCount > 0) {
-      indicator = "\u001B[31m✘\u001b[0m"
+    t.afterSuite { descriptor, result ->
+        def indicator = "\u001B[32m✓\u001b[0m"
+        if (result.failedTestCount > 0) {
+            indicator = "\u001B[31m✘\u001b[0m"
+        }
+        logger.lifecycle("$indicator Test ${descriptor.name}; Executed: ${result.testCount}/\u001B[32m${result.successfulTestCount}\u001B[0m/\u001B[31m${result.failedTestCount}\u001B[0m")
     }
-    logger.lifecycle("$indicator Test ${descriptor.name}; Executed: ${result.testCount}/\u001B[32m${result.successfulTestCount}\u001B[0m/\u001B[31m${result.failedTestCount}\u001B[0m")
-  }
 }
 
 def pomConfig = {
@@ -181,42 +181,31 @@ def pomConfig = {
 }
 
 gradlePlugin {
+    website = "https://github.com/gigaSproule/license-gradle-plugin"
+    vcsUrl = "https://github.com/gigaSproule/license-gradle-plugin.git"
     plugins {
         licensePlugin {
-            id = "com.github.hierynomus.license"
+            id = "com.benjaminsproule.license"
             implementationClass = "nl.javadude.gradle.plugins.license.LicensePlugin"
-        }
-
-        licenseBasePlugin {
-            id = "com.github.hierynomus.license-base"
-            implementationClass = "com.hierynomus.gradle.license.LicenseBasePlugin"
-        }
-
-        licenseReportPlugin {
-            id = "com.github.hierynomus.license-report"
-            implementationClass = "com.hierynomus.gradle.license.LicenseReportingPlugin"
-        }
-    }
-}
-
-pluginBundle {
-    website = "https://github.com/hierynomus/license-gradle-plugin"
-    vcsUrl = "https://github.com/hierynomus/license-gradle-plugin.git"
-    tags = ["gradle", "plugin", "license"]
-    plugins {
-        licensePlugin {
             displayName = "License plugin for Gradle"
             description = "Applies a header to files, typically a license"
+            tags.set(["gradle", "plugin", "license"])
         }
+
         licenseBasePlugin {
+            id = "com.benjaminsproule.license-base"
+            implementationClass = "com.hierynomus.gradle.license.LicenseBasePlugin"
             displayName = "Base License plugin for Gradle"
             description = "Base plugin to apply a header to files, typically a license"
+            tags.set(["gradle", "plugin", "license"])
         }
 
         licenseReportPlugin {
+            id = "com.benjaminsproule.license-report"
+            implementationClass = "com.hierynomus.gradle.license.LicenseReportingPlugin"
             displayName = "License Report plugin for Gradle"
             description = "Reports over licenses"
-            tags = [ "gradle", "plugin", "license", "report" ]
+            tags.set(["gradle", "plugin", "license", "report"])
         }
     }
 }
