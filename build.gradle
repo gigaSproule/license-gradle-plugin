@@ -189,7 +189,7 @@ gradlePlugin {
             implementationClass = "nl.javadude.gradle.plugins.license.LicensePlugin"
             displayName = "License plugin for Gradle"
             description = "Applies a header to files, typically a license"
-            tags.set(["gradle", "plugin", "license"])
+            tags.set(["license"])
         }
 
         licenseBasePlugin {
@@ -197,7 +197,7 @@ gradlePlugin {
             implementationClass = "com.hierynomus.gradle.license.LicenseBasePlugin"
             displayName = "Base License plugin for Gradle"
             description = "Base plugin to apply a header to files, typically a license"
-            tags.set(["gradle", "plugin", "license"])
+            tags.set(["license"])
         }
 
         licenseReportPlugin {
@@ -205,7 +205,7 @@ gradlePlugin {
             implementationClass = "com.hierynomus.gradle.license.LicenseReportingPlugin"
             displayName = "License Report plugin for Gradle"
             description = "Reports over licenses"
-            tags.set(["gradle", "plugin", "license", "report"])
+            tags.set(["license", "report"])
         }
     }
 }
