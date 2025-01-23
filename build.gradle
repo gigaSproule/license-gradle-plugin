@@ -188,7 +188,7 @@ gradlePlugin {
             id = "com.benjaminsproule.license"
             implementationClass = "nl.javadude.gradle.plugins.license.LicensePlugin"
             displayName = "License plugin for Gradle"
-            description = "Applies a header to files, typically a license"
+            description = "Applies a header to files from a given template"
             tags.set(["license"])
         }
 
@@ -196,7 +196,7 @@ gradlePlugin {
             id = "com.benjaminsproule.license-base"
             implementationClass = "com.hierynomus.gradle.license.LicenseBasePlugin"
             displayName = "Base License plugin for Gradle"
-            description = "Base plugin to apply a header to files, typically a license"
+            description = "Base plugin to apply a header to files from a given template"
             tags.set(["license"])
         }
 
@@ -204,7 +204,7 @@ gradlePlugin {
             id = "com.benjaminsproule.license-report"
             implementationClass = "com.hierynomus.gradle.license.LicenseReportingPlugin"
             displayName = "License Report plugin for Gradle"
-            description = "Reports over licenses"
+            description = "Plugin to generate a report of the licenses for the dependencies being used"
             tags.set(["license", "report"])
         }
     }
